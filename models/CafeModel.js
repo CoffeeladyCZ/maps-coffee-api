@@ -9,6 +9,8 @@ const CafeSchema = new Schema({
   },
   location: { type: Array, },
   street: { type: String, },
+  city: { type: String },
+  postCode: { type: String },
   time: { type: String, },
   web: { type: String },
   description: { type: String, },
@@ -25,7 +27,7 @@ const CafeSchema = new Schema({
   image: { type: Array }
 });
 
-CafeSchema.virtual('url').get(() => {
+CafeSchema.virtual('url').get(function () {
   return 'api/cafe/' + this._id;
 });
 

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -21,16 +22,25 @@ app.use('/api/cafe', cafeRouter);
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
+const mongoDB = process.env.MONGO_URL;
 
-const mongoDB = process.env.MONGODB_URL;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
+const connectDB = async() => {
+  try {
+    await mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true })
+  } catch(error) {
+    console.error('Failed to connect to MongoDB', error);
+  }
+}
+connectDB();
 
-// catch 404 and forward to error handler
-// app.use((req, res, next) => {
-//   next(createError(404));
-// });
+// mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+// const db = mongoose.connection;
+// db.on("error", console.error.bind(console, "MongoDB connection error:"));
+
+if (!process.env.MONGO_URL) {
+  console.error('Error: MONGO_URL not found in .env file');
+  process.exit(1); // Exit the process if the .env file is not properly configured
+}
 
 // error handler
 app.use((err, req, res, next) => {
