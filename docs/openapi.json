@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Cafes API",
+    "version": "1.0.0",
+    "description": "API documentation for managing cafes"
+  },
+  "paths": {
+    "/cafes/list": {
+      "get": {
+        "summary": "List of Cafes",
+        "description": "Get a list of all cafes.",
+        "responses": {
+          "200": {
+            "description": "List of cafes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Cafe"
+                  }
+                }
+              }
+          }
+        }
+      }
+      }
+    },
+    "/cafes/create": {
+      "post": {
+        "summary": "Create a Cafe",
+        "description": "Create a new cafe based on provided data.",
+        "requestBody": {
+          "description": "Cafe data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cafe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cafe was successfully created."
+          }
+        }
+      }
+    },
+    "/cafes/{id}": {
+      "get": {
+        "summary": "Cafe Details",
+        "description": "Get details of a cafe.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Cafe identifier",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the cafe.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Cafe"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a Cafe",
+        "description": "Delete an existing cafe based on its identifier.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Cafe identifier",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cafe was successfully deleted."
+          }
+        }
+      }
+    },
+    "/api/update": {
+      "put": {
+        "summary": "Update a Cafe",
+        "description": "Update an existing cafe based on provided data.",
+        "requestBody": {
+          "description": "Cafe data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Cafe"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cafe was successfully updated."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Cafe": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the cafe."
+          },
+          "location": {
+            "type": "array",
+            "description": "Location coordinates."
+          },
+          "street": {
+            "type": "string",
+            "description": "Street address."
+          },
+          "city": {
+            "type": "string",
+            "description": "City name."
+          },
+          "postCode": {
+            "type": "string",
+            "description": "Postal code."
+          },
+          "time": {
+            "type": "string",
+            "description": "Operating hours."
+          },
+          "web": {
+            "type": "string",
+            "description": "Website URL."
+          },
+          "description": {
+            "type": "string",
+            "description": "Cafe description."
+          },
+          "lat": {
+            "type": "number",
+            "description": "Latitude coordinate.",
+            "maximum": 18
+          },
+          "lng": {
+            "type": "number",
+            "description": "Longitude coordinate.",
+            "maximum": 18
+          },
+          "image": {
+            "type": "array",
+            "description": "Image URLs."
+          }
+        },
+        "required": ["name", "lat", "lng"]
+      }
+      
+    }
+  }
+}
