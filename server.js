@@ -1,12 +1,14 @@
 require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const logger = require('morgan');
 const app = express();
+const swaggerUi = require('swagger-ui-express');
 
 const cafeRouter = require('./routes/api/cafe');
 
@@ -15,10 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(bodyParser.json());
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors());
-
 app.use('/api/cafe', cafeRouter);
+
+const openapiSpecification = JSON.parse(fs.readFileSync('docs/openapi.json', 'utf8'));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
@@ -33,13 +36,9 @@ const connectDB = async() => {
 }
 connectDB();
 
-// mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
-// const db = mongoose.connection;
-// db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
 if (!process.env.MONGO_URL) {
   console.error('Error: MONGO_URL not found in .env file');
-  process.exit(1); // Exit the process if the .env file is not properly configured
+  process.exit(1);
 }
 
 // error handler
