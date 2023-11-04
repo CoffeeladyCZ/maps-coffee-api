@@ -1,3 +1,5 @@
+// const slugify = require('slugify');
+
 const Cafe = require("../models/CafeModel");
 
 exports.cafe_list = async(req, res, next) => {
@@ -18,50 +20,63 @@ exports.cafe_create = async (req, res, next) => {
   try {
     const {
       name,
+      contact,
       location,
-      street,
-      city,
-      postCode,
-      time,
-      web,
+      address,
+      opening_hours,
       description,
-      lat,
-      lng,
+      coordinates,
       image,
     } = req.body;
+
+    const slug = slugify(name, {
+      replacement: '-',
+      lower: true
+    });
+
+    // for (const oh of openingHours) {
+    //   if (!isValidTime(oh.timeOpen) || !isValidTime(oh.timeClose)) {
+    //     return res.status(400).json({ error: 'Neplatný časový formát.' });
+    //   }
+    // }
 
     const cafe = new Cafe({
       name,
       location,
-      street,
-      city,
-      postCode,
-      time,
-      web,
+      address,
+      opening_hours,
       description,
-      lat,
-      lng,
+      coordinates,
+      contact,
       image,
     });
 
     const savedCafe = await cafe.save({ writeConcern: { w: 'majority', wtimeout: 0 } });
-    res.status(201).json(savedCafe);
+    return res.status(201).json(savedCafe);
   } catch (err) {
     next(err);
+    // return res.status(500).json({ error: 'Něco se pokazilo.' });
   }
 };
+
+function isValidTime(time) {
+  const timeRegex = /^([01]\d|2[0-3]):([0-5]\d)$/;
+  return timeRegex.test(time);
+}
 
 /////////////////////////////////////////////////////////
 
 exports.cafe_detail = async(req, res, next) => {
   const { id } = req.params;
-  const result = await Cafe.findOne({name: id})
-    .exec((err, result) => {
-      if (err) {
-        return next(err);
-      }
-      res.json(result);
-    })
+  try {
+    const result = await Cafe.findOne({ slug: id }).exec();
+    if (!result) {
+      return res.status(404).json({ message: "Cafe not found" });
+    }
+    res.json(result);
+  } catch (err) {
+    next(err);
+  }
 };
 
 ////////////////////////////////////////////////////////////
@@ -76,7 +91,6 @@ exports.cafe_delete = async(res, req, next) => {
 }
 
 exports.cafe_update = (res, req, next) => {
-  const { id } = req.params;
   Cafe.findByIdAndUpdate({ name: req.params.id }, 'cafe')
     .exec((error, result) => {
       if(error) {
