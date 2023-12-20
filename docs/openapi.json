@@ -6,7 +6,7 @@
     "description": "API documentation for managing cafes"
   },
   "paths": {
-    "/cafes/list": {
+    "/cafe/list": {
       "get": {
         "summary": "List of Cafes",
         "description": "Get a list of all cafes.",
@@ -27,7 +27,7 @@
       }
       }
     },
-    "/cafes/create": {
+    "/cafe/create": {
       "post": {
         "summary": "Create a Cafe",
         "description": "Create a new cafe based on provided data.",
@@ -48,7 +48,7 @@
         }
       }
     },
-    "/cafes/{id}": {
+    "/cafe/{id}": {
       "get": {
         "summary": "Cafe Details",
         "description": "Get details of a cafe.",
@@ -97,7 +97,7 @@
         }
       }
     },
-    "/api/update": {
+    "/cafe/update": {
       "put": {
         "summary": "Update a Cafe",
         "description": "Update an existing cafe based on provided data.",
@@ -114,6 +114,24 @@
         "responses": {
           "200": {
             "description": "Cafe was successfully updated."
+          }
+        }
+      }
+    },
+    "/locations": {
+      "get": {
+        "summary": "Gets locations",
+        "description": "Gets locations of cafes",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Location"
+                }
+              }
+            }
           }
         }
       }
@@ -172,6 +190,12 @@
           }
         },
         "required": ["name", "lat", "lng"]
+      },
+      "Location": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
       }
       
     }
