@@ -16,7 +16,6 @@ exports.cafe_list = async(req, res, next) => {
 ////////////////////////////////////////////////////////////
 
 exports.cafe_create = async (req, res, next) => {
-  console.log('request', req.body);
   try {
     const {
       name,
@@ -49,6 +48,7 @@ exports.cafe_create = async (req, res, next) => {
       coordinates,
       contact,
       image,
+      slug,
     });
 
     const savedCafe = await cafe.save({ writeConcern: { w: 'majority', wtimeout: 0 } });
@@ -67,9 +67,9 @@ function isValidTime(time) {
 /////////////////////////////////////////////////////////
 
 exports.cafe_detail = async(req, res, next) => {
-  const { id } = req.params;
+  const { name } = req.params;
   try {
-    const result = await Cafe.findOne({ slug: id }).exec();
+    const result = await Cafe.findOne({ slug: name }).exec();
     if (!result) {
       return res.status(404).json({ message: "Cafe not found" });
     }

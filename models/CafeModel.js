@@ -2,18 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const CafeSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  location: { type: Array, },
-  street: { type: String, },
-  city: { type: String },
-  postCode: { type: String },
-  time: { type: String, },
-  web: { type: String },
-  description: { type: String, },
+const addressSchema = new mongoose.Schema({
+  street: String,
+  postal_code: String,
+  city: String,
+});
+
+const coordinatesSchema = new mongoose.Schema({
   lat: {
     type: Number,
     max_length: 18,
@@ -24,7 +19,33 @@ const CafeSchema = new Schema({
     max_length: 18,
     required: true
   }, 
-  image: { type: Array }
+})
+
+const contactSchema = new mongoose.Schema({
+    phone: String,
+    email: String,
+    web: String,
+})
+
+const openingHoursSchema = new mongoose.Schema({
+  day_of_week: String,
+  open_time: String,
+  close_time: String,
+})
+
+const CafeSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  contact: contactSchema,
+  location: { type: Array, },
+  address: addressSchema,
+  opening_hours: [openingHoursSchema],
+  description: { type: String, },
+  coordinates: coordinatesSchema,
+  image: { type: Array },
+  slug: { type: String },
 });
 
 CafeSchema.virtual('url').get(function () {
