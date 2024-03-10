@@ -28,7 +28,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
 // Set up mongoose connection
 const mongoose = require("mongoose");
-const mongoDB = process.env.MONGO_URL;
+const mongoDB = process.env.MONGODB_URI;
 
 const connectDB = async() => {
   try {
@@ -39,8 +39,8 @@ const connectDB = async() => {
 }
 connectDB();
 
-if (!process.env.MONGO_URL) {
-  console.error('Error: MONGO_URL not found in .env file');
+if (!process.env.MONGODB_URI) {
+  console.error('Error: MONGODB_URI not found in .env file');
   process.exit(1);
 }
 

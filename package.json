@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node ./bin/www",
     "devstart": "nodemon ./bin/www",
-    "serverstart": "SET DEBUG=maps-coffee-api:* npm run devstart"
+    "serverstart": "SET DEBUG=maps-coffee-api:* npm run devstart",
+    "init-db": "node initDB.js"
   },
   "dependencies": {
     "async": "^3.2.4",
