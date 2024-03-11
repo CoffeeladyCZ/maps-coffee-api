@@ -57,14 +57,9 @@ app.use((err, req, res, next) => {
     error: err
   });});
 
-// CORS
-app.get('/cafe/list', (req, res, next) => {
-  res.json({msg: 'This is CORS-enabled for all origins!'})
-})
-
-app.listen(80, () => {
-  console.log('CORS-enabled web server listening on port 80')
-})
+// app.listen(80, () => {
+//   console.log('CORS-enabled web server listening on port 80')
+// })
 
 app.use(cookieParser())
 
@@ -73,7 +68,5 @@ app.use(cookieParser())
 app.use((err, req, res, next) => {
   res.status(400).send(err.message)
 })
-
-app.listen(3000)
 
 module.exports = app;
