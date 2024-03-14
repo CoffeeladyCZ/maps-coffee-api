@@ -67,9 +67,9 @@ function isValidTime(time) {
 /////////////////////////////////////////////////////////
 
 exports.cafe_detail = async(req, res, next) => {
-  const { name } = req.params;
+  const { id } = req.params;
   try {
-    const result = await Cafe.findOne({ slug: name }).exec();
+    const result = await Cafe.findOne({ slug: id }).exec();
     if (!result) {
       return res.status(404).json({ message: "Cafe not found" });
     }
