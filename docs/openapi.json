@@ -48,13 +48,13 @@
         }
       }
     },
-    "/cafe/{id}": {
+    "/api/cafe/{name}": {
       "get": {
         "summary": "Cafe Details",
         "description": "Get details of a cafe.",
         "parameters": [
           {
-            "name": "id",
+            "name": "name",
             "in": "path",
             "required": true,
             "description": "Cafe identifier",
@@ -95,12 +95,21 @@
             "description": "Cafe was successfully deleted."
           }
         }
-      }
-    },
-    "/cafe/update": {
+      },
       "put": {
         "summary": "Update a Cafe",
         "description": "Update an existing cafe based on provided data.",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "name of the cafe",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {
           "description": "Cafe data",
           "content": {
@@ -140,57 +149,97 @@
   "components": {
     "schemas": {
       "Cafe": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Name of the cafe."
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the cafe",
+              "example": "Cafe Example"
+            },
+            "slug": {
+              "type": "string"
+            },
+            "contact": {
+              "type": "object",
+              "properties": {
+                "phone": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "web": {
+                  "type": "string"
+                }
+              }
+            },
+            "address": {
+              "type": "object",
+              "properties": {
+                "street": {
+                  "type": "string"
+                },
+                "postal_code": {
+                  "type": "string"
+                },
+                "city": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Location",
+                  "example": ["Praha"]
+                }
+              }
+            },
+            "opening_hours": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "day_of_week": {
+                    "type": "string"
+                  },
+                  "open_time": {
+                    "type": "string"
+                  },
+                  "close_time": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "description": {
+              "type": "string"
+            },
+            "coordinates": {
+              "type": "object",
+              "properties": {
+                "lat": {
+                  "type": "number",
+                  "description": "Latitude coordinate",
+                  "maximum": 18
+                },
+                "lng": {
+                  "type": "number",
+                  "description": "Longitude coordinate",
+                  "maximum": 18
+                }
+              }
+            },
+            "image": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Image URLs"
+            }
           },
-          "location": {
-            "type": "array",
-            "description": "Location coordinates."
-          },
-          "street": {
-            "type": "string",
-            "description": "Street address."
-          },
-          "city": {
-            "type": "string",
-            "description": "City name."
-          },
-          "postCode": {
-            "type": "string",
-            "description": "Postal code."
-          },
-          "time": {
-            "type": "string",
-            "description": "Operating hours."
-          },
-          "web": {
-            "type": "string",
-            "description": "Website URL."
-          },
-          "description": {
-            "type": "string",
-            "description": "Cafe description."
-          },
-          "lat": {
-            "type": "number",
-            "description": "Latitude coordinate.",
-            "maximum": 18
-          },
-          "lng": {
-            "type": "number",
-            "description": "Longitude coordinate.",
-            "maximum": 18
-          },
-          "image": {
-            "type": "array",
-            "description": "Image URLs."
-          }
+          "required": ["name", "lat", "lng"]
         },
-        "required": ["name", "lat", "lng"]
-      },
       "Location": {
         "type": "array",
         "items": {
