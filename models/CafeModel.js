@@ -4,8 +4,9 @@ const Schema = mongoose.Schema;
 
 const addressSchema = new mongoose.Schema({
   street: String,
-  postal_code: String,
+  post_code: String,
   city: String,
+  location: String,
 });
 
 const coordinatesSchema = new mongoose.Schema({
@@ -39,7 +40,6 @@ const CafeSchema = new Schema({
     required: true,
   },
   contact: contactSchema,
-  location: { type: Array, },
   address: addressSchema,
   opening_hours: [openingHoursSchema],
   description: { type: String, },
