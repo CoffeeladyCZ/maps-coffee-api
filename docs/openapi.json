@@ -144,6 +144,64 @@
           }
         }
       }
+    },
+    "/user/registration": {
+      "post": {
+        "summary": "User Registration",
+        "description": "Register a new user.",
+        "requestBody": {
+          "description": "User data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was successfully registered."
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "summary": "User Login",
+        "description": "Login a user.",
+        "requestBody": {
+          "description": "User data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "User was successfully logged in."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -244,6 +302,17 @@
         "type": "array",
         "items": {
           "type": "string"
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
         }
       }
       

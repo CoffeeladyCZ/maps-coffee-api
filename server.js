@@ -12,6 +12,7 @@ const swaggerUi = require('swagger-ui-express');
 
 const cafeRouter = require('./routes/api/cafe');
 const locationRouter = require('./routes/api/locations');
+const userRouter = require('./routes/api/user');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -22,6 +23,7 @@ app.use(cors());
 
 app.use('/api/cafe', cafeRouter);
 app.use('/api/locations', locationRouter);
+app.use('/api/user', userRouter);
 
 const openapiSpecification = JSON.parse(fs.readFileSync('docs/openapi.json', 'utf8'));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
